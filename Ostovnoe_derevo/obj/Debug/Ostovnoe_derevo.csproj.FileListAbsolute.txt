@@ -1,0 +1,11 @@
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\bin\Debug\Ostovnoe_derevo.exe.config
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\bin\Debug\Ostovnoe_derevo.exe
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\bin\Debug\Ostovnoe_derevo.pdb
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.csproj.AssemblyReference.cache
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.csproj.SuggestedBindingRedirects.cache
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.Properties.Resources.resources
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.csproj.GenerateResource.cache
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.csproj.CoreCompileInputs.cache
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.exe
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.pdb
+C:\Users\Alena\Desktop\MyDesk\институт\политех\АиСД\Курсовая работа\Ostovnoe_derevo\obj\Debug\Ostovnoe_derevo.FormMain.resources

@@ -10,9 +10,9 @@ namespace Ostovnoe_derevo
     {
         public Vertex FirstPoint { get; private set; }
         public Vertex SecondPoint { get; private set; }
-        public float Weight { get; private set; }
+        public int Weight { get; private set; }
 
-        public Edge(Vertex first, Vertex second, float valueOfWeight)
+        public Edge(Vertex first, Vertex second, int valueOfWeight)
         {
             FirstPoint = first;
             SecondPoint = second;
