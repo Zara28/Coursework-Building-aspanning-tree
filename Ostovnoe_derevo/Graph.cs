@@ -13,31 +13,60 @@ namespace Ostovnoe_derevo
         public List<Edge> edges = new List<Edge>();
         public List<Vertex> vertices = new List<Vertex>();
 
-        public void Create(int count)
+        public void Create(int count, bool? ed)
         {
+            vertices.Clear();
             Random r = new Random();
-            int x = 50;
-            int y = 150;
-
-            int deltaX = 100;
-            int deltaY = 60;
+           
             for (int i = 0; i < count; i++)
             {
-                if (x > 400)
-                {
-                    deltaX = -deltaX;
-                }
-                if (y > 300)
-                {
-                    deltaY = -deltaY;
-                }
-                x += deltaX;
-                y += deltaY;
-
                 SolidBrush _Srush = (SolidBrush)Brushes.Violet;
-                _Srush.Color = Color.FromArgb(255 - i * 15, 255, 1 + i * 20);
-                AddVertex(new Vertex(i, false, x, y, _Srush.Color));
+                _Srush.Color = Color.FromArgb(255%(Math.Abs(255 - i * 15)+1), 255, 255%(Math.Abs(255 - 1 - i * 20)+1));
+           
+
+                double x = 200;
+                double y = 200;
+                double ax = Math.Sin((2*Math.PI / (count))*i)*100;
+                double ay = Math.Cos((2 * Math.PI / (count))*i)*100;
+
+                AddVertex(new Vertex(i, false, (int)(x+ax), (int)(y+ay), _Srush.Color));
             }
+            if(ed != true)
+            {
+                while (!Svyznost(edges))
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        int ind = r.Next(0, count - 1);
+                        while (ind == i)
+                        {
+                            ind = r.Next(0, count - 1);
+                        }
+                        foreach (Edge e in edges)
+                        {
+                            if (e.FirstPoint == vertices[ind] && e.SecondPoint == vertices[i])
+                            {
+                                ind = r.Next(0, count - 1);
+                            }
+                        }
+                        AddEdge(vertices[i], vertices[ind], r.Next(100));
+
+                    }
+                }
+            }
+            else
+            {
+                List<Edge> e = new List<Edge>();
+                foreach (Edge _e in edges)
+                {
+                    Vertex v1 = vertices.Where(c => c.Name == _e.FirstPoint.Name).Select(c => c).ToList()[0];
+                    Vertex v2 = vertices.Where(c => c.Name == _e.SecondPoint.Name).Select(c => c).ToList()[0];
+                    e.Add(new Edge(v1, v2, _e.Weight));
+                }
+                edges = e;
+            }
+            
+
         }
         public void AddVertex(Vertex vertex)
         {
@@ -52,14 +81,14 @@ namespace Ostovnoe_derevo
             Color color = new Color();
             foreach (Vertex v in vertices)
             {
-                v.color = Color.FromArgb(255 - vertices.IndexOf(v) * 15, 255, 1 + vertices.IndexOf(v) * 20);
+                v.color = Color.FromArgb(255%(255 - Math.Abs(255 - vertices.IndexOf(v) * 15)+1), 255, 255%(Math.Abs(255 - 1 - vertices.IndexOf(v) * 20)+1));
                 v.IsChecked = false;
             }
         }
         public bool Svyznost(List<Edge> edge)
         {
             Update();
-            DFD(vertices[6], edge);
+            DFD(vertices[0], edge);
             foreach(Vertex v in vertices)
             {
                 if(v.IsChecked==false)
