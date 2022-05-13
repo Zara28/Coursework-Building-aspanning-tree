@@ -322,7 +322,7 @@
             // 
             this.buttonDeleteEdge.Location = new System.Drawing.Point(375, 223);
             this.buttonDeleteEdge.Name = "buttonDeleteEdge";
-            this.buttonDeleteEdge.Size = new System.Drawing.Size(94, 34);
+            this.buttonDeleteEdge.Size = new System.Drawing.Size(108, 34);
             this.buttonDeleteEdge.TabIndex = 8;
             this.buttonDeleteEdge.Text = "Удалить";
             this.buttonDeleteEdge.UseVisualStyleBackColor = true;
@@ -332,7 +332,7 @@
             // 
             this.buttonAddEdge.Location = new System.Drawing.Point(375, 170);
             this.buttonAddEdge.Name = "buttonAddEdge";
-            this.buttonAddEdge.Size = new System.Drawing.Size(94, 47);
+            this.buttonAddEdge.Size = new System.Drawing.Size(108, 47);
             this.buttonAddEdge.TabIndex = 7;
             this.buttonAddEdge.Text = "Добавить";
             this.buttonAddEdge.UseVisualStyleBackColor = true;
@@ -437,7 +437,7 @@
             this.ClientSize = new System.Drawing.Size(1158, 742);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormMain";
-            this.Text = "Form1";
+            this.Text = "Поиск минимального остовного дерева";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);

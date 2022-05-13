@@ -26,6 +26,7 @@ namespace Ostovnoe_derevo
         {
             Text_Graph();
             pictureBox3.Image = pictureBox2.Image;
+            pictureBox1.Controls.Clear();
         }
        
         public void DesDelete()
@@ -65,39 +66,26 @@ namespace Ostovnoe_derevo
             }
 
         }
-        public int FindRoot(int node, int[]parent)
-        {
-            var root = node;
-            while(root!=parent[root])
-            {
-                root = parent[root];
-            }
-            while(node!=root)
-            {
-                var oldParent = parent[node];
-                parent[node] = root;
-                node = oldParent;
-            }
-            return root;
-        }
+
         public void Boruvka()
         {
             BoruvkaMST = new List<Edge>();
             List<Edge> List_edges = new List<Edge>();
-            foreach(Vertex v in graph.vertices)
+           
+            foreach (Vertex v in graph.vertices)
             {
-                List_edges = graph.edges.Where(e=>e.FirstPoint == v || e.SecondPoint == v).Select(e=>e).ToList();
+                List_edges = graph.edges.Where(e => e.FirstPoint == v || e.SecondPoint == v).Select(e => e).ToList();
                 int min = 1000;
                 Edge min_e = null;
-                foreach(Edge e in List_edges)
+                foreach (Edge e in List_edges)
                 {
-                    if(e.Weight<min)
+                    if (e.Weight < min && !BoruvkaMST.Contains(e))
                     {
                         min = e.Weight;
                         min_e = e;
                     }
                 }
-                if(min_e!=null)
+                if (min_e != null)
                 {
                     min_e.FirstPoint.color = Color.Red;
                     min_e.SecondPoint.color = Color.Red;
@@ -106,11 +94,53 @@ namespace Ostovnoe_derevo
                     pictureBox1.Refresh();
                     Thread.Sleep(1000);
                 }
-               
+
             }
+            while(!graph.Svyznost(BoruvkaMST))
+            {
+                foreach (Vertex v in graph.vertices)
+                {
+                    List_edges = graph.edges.Where(e => e.FirstPoint == v || e.SecondPoint == v).Select(e => e).ToList();
+                    int min = 100000;
+                    Edge min_e = null;
+                    foreach (Edge e in List_edges)
+                    {
+                        if (e.Weight < min && !BoruvkaMST.Contains(e))
+                        {
+                            min = e.Weight;
+                            min_e = e;
+                        }
+                    }
+                    if (min_e != null)
+                    {
+                        min_e.FirstPoint.color = Color.Red;
+                        min_e.SecondPoint.color = Color.Red;
+                        BoruvkaMST.Add(min_e);
+                        pictureBox1.Image = Draw(BoruvkaMST);
+                        //pictureBox1.Refresh();
+                        Thread.Sleep(1000);
+                    }
+
+                }
+            }
+         
 
         }
-        
+        public int FindRoot(int node, int[] parent)
+        {
+            var root = node;
+            while (root != parent[root])
+            {
+                root = parent[root];
+            }
+            while (node != root)
+            {
+                var oldParent = parent[node];
+                parent[node] = root;
+                node = oldParent;
+            }
+            return root;
+        }
         public void Kruskal()
         {
             KruskalMST = new List<Edge>();
@@ -144,6 +174,7 @@ namespace Ostovnoe_derevo
             pictureBox1.Image = null;
             Bitmap bitmap = new Bitmap(793, 432);
             Graphics line = Graphics.FromImage(bitmap);
+            pictureBox1.Controls.Clear();
             foreach(Label label in pictureBox1.Controls)
             {
                 pictureBox1.Controls.Remove(label);
@@ -262,7 +293,7 @@ namespace Ostovnoe_derevo
                     graph.Update();
                     pictureBox1.Refresh();
                     Boruvka();
-                    labelMST.Text = "Остов состоит из " + graph.GetVertex(PrimMST);
+                    labelMST.Text = "Остов состоит из " + graph.GetVertex(BoruvkaMST);
                     labelWeight.Text = "Вес остова равен: " + graph.GetWeight(BoruvkaMST).ToString();
                     break;
                 case "Алгоритм обратного удаления":
@@ -299,7 +330,7 @@ namespace Ostovnoe_derevo
             graph.edges.Clear();
             graph.vertices.Clear();
             buttonSave.Visible = true;
-            var controls = panel2.Controls.OfType<TextBox>().Select(c => c).ToList();
+            var controls = panel2.Controls.OfType<TextBox>().Where(c=>c.Name!="textBox_Count").Select(c => c).ToList();
             foreach(TextBox text in controls)
             {
                 panel2.Controls.Remove(text);
@@ -383,35 +414,55 @@ namespace Ostovnoe_derevo
                 }
             }
             graph.Create(count, true);
-            pictureBox2.Image = Draw(graph.edges);
-            pictureBox3.Image = Draw(graph.edges);
+            if(graph.Svyznost(graph.edges))
+            {
+                pictureBox2.Image = Draw(graph.edges);
+                pictureBox3.Image = Draw(graph.edges);
+            }
+            else
+            {
+                MessageBox.Show("Граф не связный");
+            }
+           
         }
       
         private void button_Add_Click(object sender, EventArgs e)
         {
             Random random = new Random();
             SolidBrush _Srush = (SolidBrush)Brushes.Violet;
-            graph.vertices.Add(new Vertex(graph.vertices.Count, false, 0, 0, _Srush.Color));
-            if (textBox_edge_New_Ver.Text!="")
-            {
+            var v = graph.vertices.Where(x => x.Name == Convert.ToInt32(textBox_Add_Ver.Text)).FirstOrDefault();
+            if (v == null){
+                graph.vertices.Add(new Vertex(graph.vertices.Count, false, 0, 0, _Srush.Color));
+                if (textBox_edge_New_Ver.Text != "")
+                {
 
-                try
-                {
-                    graph.AddEdge(graph.vertices[graph.vertices.Count-1], graph.vertices[Convert.ToInt32(textBox_edge_New_Ver.Text)], random.Next(100));
+                    try
+                    {
+
+                        graph.AddEdge(graph.vertices[graph.vertices.Count - 1], graph.vertices[Convert.ToInt32(textBox_edge_New_Ver.Text)], random.Next(100));
+                        graph.Create(graph.vertices.Count, true);
+                        pictureBox3.Image = Draw(graph.edges);
+
+                        Text_Graph();
+
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Нет такой вершины");
+                    }
                 }
-                catch
+                else
                 {
-                    MessageBox.Show("Нет такой вершины");
+                    MessageBox.Show("Введите вершину для соединения ее с новой");
                 }
             }
             else
             {
-                MessageBox.Show("Введите вершину для соединения ее с новой");
+                MessageBox.Show("Такая вершина уже есть");
             }
-            graph.Create(graph.vertices.Count, true);
-            pictureBox3.Image = Draw(graph.edges);
-            
-            Text_Graph();
+           
+           
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)

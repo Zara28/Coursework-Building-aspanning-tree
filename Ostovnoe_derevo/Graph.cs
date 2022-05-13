@@ -49,7 +49,10 @@ namespace Ostovnoe_derevo
                                 ind = r.Next(0, count - 1);
                             }
                         }
-                        AddEdge(vertices[i], vertices[ind], r.Next(100));
+                        if (i != ind)
+                        {
+                            AddEdge(vertices[i], vertices[ind], r.Next(100));
+                        }
 
                     }
                 }
